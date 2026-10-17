@@ -1,0 +1,25 @@
+# 久淘攀岩抱石館-宜蘭店（JT Climbing) 官方網站 robots.txt
+# Jiou-Tau Bouldering Gym (Yilan) — https://teamily.ai/sites/2e0f242f-e233-4e06-9ec8-f29a50e01760/webpages/jioutau-official-site_v12/
+
+User-agent: *
+Allow: /
+Disallow: /styles.css
+
+# 允許主要搜尋引擎完整索引
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# AI 助理與摘要服務
+User-agent: GPTBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+Sitemap: https://teamily.ai/sites/2e0f242f-e233-4e06-9ec8-f29a50e01760/webpages/jioutau-official-site_v12/sitemap.xml
