@@ -1,6 +1,57 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-<head>
+<head><script data-tmly-media-guard="1">(function(){"use strict";
+var T=window.__tmly||(window.__tmly=(function(){
+var o={},n=String(window.name||"");
+if(n.slice(0,5)==="tmly:"){n.slice(5).split("&").forEach(function(kv){
+var i=kv.indexOf("=");if(i>0){o[kv.slice(0,i)]=kv.slice(i+1)}})}
+return o})());
+if(T.presentation!=="preview"){return}
+var K="tmly:media-muted:"+String(location.pathname).replace(/[^/]*$/,"");
+var muted=false;try{muted=localStorage.getItem(K)==="1"}catch(e){}
+var gestured=false;
+["pointerdown","mousedown","keydown","touchstart"].forEach(function(t){
+document.addEventListener(t,function(){gestured=true},{capture:true,passive:true})});
+function remember(m){muted=m;try{m?localStorage.setItem(K,"1"):localStorage.removeItem(K)}catch(e){}}
+function announcePaused(el){try{el.dispatchEvent(new Event("pause"))}catch(e){}}
+function harden(el){
+el.autoplay=false;el.removeAttribute("autoplay");
+if(el.getAttribute("preload")==="auto"){el.setAttribute("preload","none")}
+if(muted){el.muted=true}
+if(!gestured&&!el.paused){try{el.pause()}catch(e){}}}
+var play=HTMLMediaElement.prototype.play;
+HTMLMediaElement.prototype.play=function(){
+if(!gestured){announcePaused(this);
+return Promise.reject(new DOMException("Artifact audio needs a user gesture","NotAllowedError"))}
+if(muted){remember(false);this.muted=false}
+return play.apply(this,arguments)};
+var acProtos=[];
+function guardAC(n){
+var N=window[n];if(!N||!N.prototype){return}
+if(acProtos.indexOf(N.prototype)<0){acProtos.push(N.prototype);
+var res=N.prototype.resume;
+if(typeof res==="function"){N.prototype.resume=function(){
+if(!gestured){return Promise.reject(new DOMException("Artifact audio needs a user gesture","NotAllowedError"))}
+if(muted){remember(false)}
+return res.apply(this,arguments)}}}
+var W=function(o){var c=arguments.length?new N(o):new N();
+if(!gestured){try{c.suspend()}catch(e){}}return c};
+W.prototype=N.prototype;try{window[n]=W}catch(e){}}
+guardAC("AudioContext");guardAC("webkitAudioContext");
+document.addEventListener("play",function(e){
+var el=e.target;if(el instanceof HTMLMediaElement&&!gestured){try{el.pause()}catch(err){}}},true);
+document.addEventListener("pause",function(e){
+if(e.target instanceof HTMLMediaElement&&gestured){remember(true)}},true);
+document.addEventListener("volumechange",function(e){
+var el=e.target;if(el instanceof HTMLMediaElement&&gestured){remember(el.muted||el.volume===0)}},true);
+function sweep(n){if(n&&n.querySelectorAll){var l=n.querySelectorAll("audio,video");
+for(var i=0;i<l.length;i++){harden(l[i])}}}
+new MutationObserver(function(rs){for(var i=0;i<rs.length;i++){var a=rs[i].addedNodes;
+for(var j=0;j<a.length;j++){var n=a[j];
+if(n instanceof HTMLMediaElement){harden(n)}else{sweep(n)}}}})
+.observe(document.documentElement,{childList:true,subtree:true});
+document.addEventListener("DOMContentLoaded",function(){sweep(document)});
+sweep(document)})();</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#182433">
@@ -8,18 +59,27 @@
 <meta name="description" content="宜蘭攀岩常見問題一次解答：完全沒爬過可以去嗎？要預約嗎？小朋友幾歲可以來？費用怎麼算？久淘攀岩抱石館-宜蘭店（JT Climbing)的 FAQ，還有疑問歡迎來電 0986-567-929。">
 <meta name="keywords" content="宜蘭攀岩費用,攀岩要預約嗎,兒童攀岩年齡,抱石新手問題,宜蘭攀岩館FAQ">
 <meta name="robots" content="index,follow,max-image-preview:large">
-<link rel="canonical" href="https://teamily.ai/sites/2e0f242f-e233-4e06-9ec8-f29a50e01760/webpages/jioutau-official-site_v12/faq.html">
+<link rel="canonical" href="https://teamily.ai/sites/2e0f242f-e233-4e06-9ec8-f29a50e01760/webpages/jioutau-official-site_v11/faq.html?tk=c2l0ZToyZTBmMjQyZi1lMjMzLTRlMDYtOWVjOC1mMjlhNTBlMDE3NjAvd2VicGFnZXMvamlvdXRhdS1vZmZpY2lhbC1zaXRlX3YxMToxNzkyMzMxNjk5.NzBlOGFlNDFmYmQ1YzU2OWVkMDY2ODQxMTY5ZGM2NTM">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:site_name" content="久淘攀岩抱石館-宜蘭店（JT Climbing)">
 <meta property="og:title" content="常見問題 FAQ｜宜蘭攀岩怎麼玩・費用・預約・兒童年齡">
 <meta property="og:description" content="完全沒爬過可以去嗎？要預約嗎？小朋友幾歲可以來？一次解答你的疑問。">
-<meta property="og:url" content="https://teamily.ai/sites/2e0f242f-e233-4e06-9ec8-f29a50e01760/webpages/jioutau-official-site_v12/faq.html">
-<meta property="og:image" content="https://static.teamily.ai/sites/2e0f242f-e233-4e06-9ec8-f29a50e01760/webpages/jioutau-official-site_v12/images/family.jpg">
+<meta property="og:url" content="https://teamily.ai/sites/2e0f242f-e233-4e06-9ec8-f29a50e01760/webpages/jioutau-official-site_v11/faq.html?tk=c2l0ZToyZTBmMjQyZi1lMjMzLTRlMDYtOWVjOC1mMjlhNTBlMDE3NjAvd2VicGFnZXMvamlvdXRhdS1vZmZpY2lhbC1zaXRlX3YxMToxNzkyMzMxNjk5.NzBlOGFlNDFmYmQ1YzU2OWVkMDY2ODQxMTY5ZGM2NTM">
+<meta property="og:image" content="https://static.teamily.ai/sites/2e0f242f-e233-4e06-9ec8-f29a50e01760/webpages/jioutau-official-site_v11/images/family.jpg?tk=c2l0ZToyZTBmMjQyZi1lMjMzLTRlMDYtOWVjOC1mMjlhNTBlMDE3NjAvd2VicGFnZXMvamlvdXRhdS1vZmZpY2lhbC1zaXRlX3YxMToxNzkyMzMxNjk5.NzBlOGFlNDFmYmQ1YzU2OWVkMDY2ODQxMTY5ZGM2NTM">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="styles.css">
 <link rel="icon" type="image/png" href="images/favicon.png">
 <link rel="apple-touch-icon" href="images/favicon.png">
-<link rel="stylesheet" href="styles.css">
+
+<style>
+/* ===== 久淘：導覽列「加入 LINE 好友」按鈕 ===== */
+/* 選擇器加上 header .nav a 前綴：styles.css 的 .nav a 權重較高，否則底色/圓角會被蓋掉 */
+header .nav a.jt-line-btn{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:999px;background:#0A7A3A;color:#fff;font-size:14px;font-weight:700;line-height:1.4;text-decoration:none;white-space:nowrap;border:0;transition:background .16s ease}
+header .nav a.jt-line-btn:hover{background:#08632F;color:#fff;text-decoration:none}
+header .nav a.jt-line-btn:focus-visible{outline:3px solid #9BE6B8;outline-offset:3px}
+header .nav a.jt-line-btn svg{width:18px;height:18px;flex:0 0 auto;display:block}
+</style>
 
 <script type="application/ld+json">
 {
@@ -47,7 +107,7 @@
       "name": "小朋友幾歲可以到久淘攀岩？有年齡限制嗎？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "館內常見親子家庭一起前來，也有小朋友的團體課程。不同年齡適合的安排不一樣，建議來電 0986-567-929 確認孩子的年齡與課程安排，我們會提供最合適的建議。"
+        "text": "館內常見親子家庭一起前來，也有小朋友的個人課程。不同年齡適合的安排不一樣，建議來電 0986-567-929 確認孩子的年齡與課程安排，我們會提供最合適的建議。"
       }
     },
     {
@@ -95,7 +155,7 @@
       "name": "久淘有戶外攀岩或溯溪的活動嗎？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "有。若人數達到開課標準，久淘會不定期開設龍洞戶外攀岩及溯溪體驗團，由專業教練帶領。開團時間與名額依官方公告為準，可來電留下聯絡方式或追蹤官方社群。"
+        "text": "有。若人數達到開課標準，久淘會不定期開設龍洞戶外攀岩及溯溪體驗團，由專業教練帶領。開團時間與名額依官方公告為準，可來電留下聯絡方式或加入官方 LINE。"
       }
     },
     {
@@ -109,11 +169,6 @@
   ]
 }
 </script>
-.jt-line-btn{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;background:#0A7A3A;color:#fff;font-size:14px;font-weight:700;line-height:1.2;border-radius:999px;text-decoration:none;transition:background .18s} 
-  .jt-line-btn:hover{background:#08632F} 
-  .jt-line-btn:focus-visible{outline:3px solid #0A7A3A;outline-offset:3px} 
-  .jt-line-btn svg{width:18px;height:18px;flex:none}
-  
 </head>
 <body>
 <a class="skip" href="#main">跳至主要內容</a>
@@ -143,7 +198,8 @@
       <a href="gym.html">場館環境</a>
       <a href="faq.html" aria-current="page">常見問題</a>
       <a href="contact.html">聯絡與交通</a>
-      <a class="jt-line-btn">  </a>
+      <a class="nav-cta" href="tel:+886986567929">電話預約</a>
+      <a class="jt-line-btn" href="https://line.me/R/ti/p/@388pchth" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="2" y="2" width="20" height="20" rx="5.4" fill="#06C755"/><path d="M12 5.9c-3.72 0-6.73 2.4-6.73 5.36 0 2.66 2.28 4.88 5.35 5.31.21.03.5.1.58.24.06.12.04.32.02.44l-.23 1.11c-.06.29-.21.98.86.53 1.08-.45 5.67-3.33 7.11-5.46.58-.83.82-1.67.82-2.5 0-2.96-3.01-5.36-6.73-5.36z" fill="#fff"/><circle cx="9.3" cy="11.3" r=".82" fill="#06C755"/><circle cx="12" cy="11.3" r=".82" fill="#06C755"/><circle cx="14.7" cy="11.3" r=".82" fill="#06C755"/></svg><span>加入 LINE 好友</span></a>
     </nav>
   </div>
 </header>
@@ -196,7 +252,7 @@
               <li>上牆前先熱身手腕、手指與肩膀</li>
               <li>覺得痠了就休息，不硬撐</li>
             </ul>
-           
+            <p>第一次來，工作人員都會先示範給你看。</p>
           </div>
         </details>
         <details>
@@ -227,8 +283,8 @@
         <details>
           <summary>課程要怎麼報名？有開課時間表嗎？</summary>
           <div class="ans">
-            <p>課程報名與開課梯次依人數與教練時段安排，沒有固定的公開課表。<strong>最直接的方式就是來電 0986-567-929</strong>，告訴我們你想上哪一類課程（體驗課／團體課／一對一／小朋友課），我們會告訴你最近的梯次與費用。</p>
-            <p>也可以透過官方 Facebook 或 Instagram 私訊詢問，開團與開課資訊都會公告在社群上。</p>
+            <p>課程報名與開課梯次依人數與教練時段安排，沒有固定的公開課表。<strong>最直接的方式就是來電 0986-567-929</strong>，告訴我們你想上哪一類課程（體驗課／團體課／一對一／兒童課），我們會告訴你最近的梯次與費用。</p>
+            <p>也可以透過官方 LINE 私訊詢問，開團與開課資訊都會公告在官方 LINE 上。</p>
           </div>
         </details>
         <details>
@@ -259,7 +315,7 @@
         <details>
           <summary>小朋友幾歲可以來？有年齡限制嗎？</summary>
           <div class="ans">
-            <p>館內常有親子家庭一起來玩，我們也提供小朋友的團體課程。不過<strong>不同年齡適合的安排不太一樣</strong>——從穿著、路線選擇到課程內容都會有差異。</p>
+            <p>館內常有親子家庭一起來玩，我們也提供小朋友的個人課程。不過<strong>不同年齡適合的安排不太一樣</strong>——從穿著、路線選擇到課程內容都會有差異。</p>
             <p>建議直接來電 <a href="tel:+886986567929">0986-567-929</a>，告訴我們孩子的年齡與有沒有經驗，我們會推薦最合適的方式。</p>
           </div>
         </details>
@@ -278,8 +334,8 @@
         <details>
           <summary>有夏令營或兒童長期課程嗎？</summary>
           <div class="ans">
-            <p>久淘過去曾推出夏令營與兒童相關課程，也持續有小朋友的團體課程。由於梯次與名額依年度規劃安排，<strong>最新招生資訊請以官方社群公告或來電詢問為準</strong>。</p>
-            <p>建議追蹤我們的 Facebook 與 Instagram，招生訊息都會第一時間公告。</p>
+            <p>久淘過去曾推出夏令營與兒童相關課程，也持續有小朋友的個人課程。由於梯次與名額依年度規劃安排，<strong>最新招生資訊請以官方 LINE 公告或來電詢問為準</strong>。</p>
+            <p>建議加入我們的官方 LINE，招生訊息都會第一時間公告。</p>
           </div>
         </details>
       </div>
@@ -312,7 +368,7 @@
           <summary>有戶外攀岩或溯溪的活動嗎？</summary>
           <div class="ans">
             <p>有！如果人數達到開課標準，久淘會不定期開設<strong>龍洞戶外攀岩及溯溪體驗團</strong>，由專業教練帶領，帶大家走進大自然挑戰不同的戶外路線。</p>
-            <p>開團時間、名額與費用依每次活動規劃而定。想收到開團通知，歡迎來電留下聯絡方式，或追蹤官方社群。</p>
+            <p>開團時間、名額與費用依每次活動規劃而定。想收到開團通知，歡迎來電留下聯絡方式，或加入官方 LINE。</p>
           </div>
         </details>
       </div>
@@ -375,8 +431,7 @@
         <ul>
           <li>📍 宜蘭縣宜蘭市健康路三段 66 號</li>
           <li>📞 <a href="tel:+886986567929">0986-567-929</a></li>
-          <li>FB：<a href="https://www.facebook.com/jioutau.yilan" target="_blank" rel="noopener noreferrer">Facebook：久淘攀岩抱石館-宜蘭店（JT Climbing)</a></li>
-          <li>IG：<a href="https://www.instagram.com/jioutau/" target="_blank" rel="noopener noreferrer">@jioutau</a></li>
+          <li>LINE：<a href="https://line.me/R/ti/p/@388pchth" target="_blank" rel="noopener noreferrer">加入 LINE 好友（@388pchth）</a></li>
         </ul>
         <a class="btn btn-primary btn-sm" href="tel:+886986567929" style="margin-top:10px">電話預約</a>
       </div>
