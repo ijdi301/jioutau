@@ -97,6 +97,19 @@ a.jt-line-btn.jt-line-btn--brand svg,
 .site-footer a.jt-line-btn.jt-line-btn--brand svg{width:22px;height:22px;flex:0 0 auto;display:block}
 /* 內文按鈕獨立成行 */
 .faq-line-cta{margin:14px 0 0}
+/* ===== FAQ「建議加入官方 LINE」該句：句子與按鈕同一行 ===== */
+/* flex + align-items:center，讓文字與按鈕垂直居中對齊（不用 baseline，避免按鈕往下墜） */
+.faq-line-inline{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin:0 0 0}
+.faq-line-inline .jt-line-btn{margin-left:0}
+/* 桌機／平板：句子強制單行，按鈕緊接在後 */
+@media(min-width:769px){
+  .faq-line-inline{flex-wrap:nowrap}
+  .faq-line-inline .faq-line-text{white-space:nowrap}
+}
+/* 手機：句子自然換行、按鈕換到下一行，不會橫向溢出 */
+@media(max-width:768px){
+  .faq-line-inline .faq-line-text{white-space:normal}
+}
 /* ===== 移除電話 CTA 後：讓「加入 LINE 好友」站回原本電話按鈕的位置（導覽列最右） ===== */
 /* 只在桌機寬度生效；1164px 以下維持原本換行行為，不動 header 寬度與收合斷點 */
 @media(min-width:1165px){
@@ -365,7 +378,11 @@ a.jt-line-btn.jt-line-btn--brand svg,
           <summary>有夏令營或兒童長期課程嗎？</summary>
           <div class="ans">
             <p>久淘過去曾推出夏令營與兒童相關課程，也持續有小朋友的個人課程。由於梯次與名額依年度規劃安排，<strong>最新招生資訊請以官方 LINE 公告或來電詢問為準</strong>。</p>
-            <p>建議加入我們的官方 LINE，招生訊息都會第一時間公告。</p>
+            <p class="faq-line-inline"><span class="faq-line-text">建議加入我們的官方 LINE，招生訊息都會第一時間公告。</span><a class="jt-line-btn jt-line-btn--brand" href="https://line.me/R/ti/p/@388pchth" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <rect x="2" y="2" width="20" height="20" rx="5.4" fill="#06C755"/>
+          <path d="M12 5.9c-3.72 0-6.73 2.4-6.73 5.36 0 2.66 2.28 4.88 5.35 5.31.21.03.5.1.58.24.06.12.04.32.02.44l-.23 1.11c-.06.29-.21.98.86.53 1.08-.45 5.67-3.33 7.11-5.46.58-.83.82-1.67.82-2.5 0-2.96-3.01-5.36-6.73-5.36z" fill="#fff"/>
+          <circle cx="9.3" cy="11.3" r=".82" fill="#06C755"/><circle cx="12" cy="11.3" r=".82" fill="#06C755"/><circle cx="14.7" cy="11.3" r=".82" fill="#06C755"/>
+        </svg><span>加入 LINE 好友</span></a></p>
           </div>
         </details>
       </div>
