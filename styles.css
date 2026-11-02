@@ -492,11 +492,47 @@ td.price{font-weight:850;color:var(--brand-dark);white-space:nowrap}
 .mobile-bar .m-map{background:#eef2f7;color:#33414f}
 @media(max-width:820px){
   .mobile-bar{display:flex}
-  body{padding-bottom:66px}
-  .to-top{bottom:80px}
+  /* 底部固定列實測 72~97px（含 LINE 按鈕），預留 103px 避免遮住頁尾最後一行 */
+  body{padding-bottom:103px}
+  .to-top{bottom:112px}
 }
 
 @media print{
   .site-header,.site-footer,.mobile-bar,.to-top,.hero-img,.cta{display:none}
   body{background:#fff}
 }
+
+/* ==========================================================================
+   官方 LINE 元件補齊（.line-ic / .line-link / .quick-line / .btn-line-official）
+   --------------------------------------------------------------------------
+   為什麼需要：styles.css 原本完全沒有定義這幾個 class（grep 0 筆），造成
+   1) index.html 的 LINE 圖示 inline SVG 沒有 width/height → 撐成容器滿寬、
+      .li-bg 沒有 fill → 預設黑色 → 出現巨型黑方塊（實測 258×258px 全黑）。
+   2) contact.html 的「加入 LINE 好友」按鈕 class="btn btn-line-official"
+      沒有對應樣式 → 只剩 .btn 的透明底 + 連結預設色 → 透明底橘字。
+   本區塊只新增規則，不改動上方任何既有樣式。
+   ========================================================================== */
+:root{--line-green:#06C755;--line-green-dark:#05A94A;--line-green-ring:#06C75545}
+
+/* 圖示基礎尺寸：所有 .line-ic 一律 1.15em，避免 inline SVG 無尺寸而撐滿 */
+.line-ic{width:1.15em;height:1.15em;flex:0 0 auto;display:inline-block;vertical-align:-.19em;margin-right:.32em}
+.line-ic .li-bg{fill:var(--line-green)}
+.line-ic .li-fg{fill:#fff}
+.line-ic .li-dot{fill:var(--line-green)}
+
+/* 綠色 LINE 按鈕（contact.html 的「加入 LINE 好友」使用） */
+.btn-line-official{background:var(--line-green);color:#fff;border-color:var(--line-green);box-shadow:0 8px 20px var(--line-green-ring)}
+.btn-line-official:hover{background:var(--line-green-dark);color:#fff;border-color:var(--line-green-dark);box-shadow:0 12px 26px #06c7555c}
+.btn-line-official:focus-visible{outline:3px solid #06C75566;outline-offset:3px}
+/* 綠底按鈕上的圖示反白：白底圓角方塊 + 綠圖案 */
+.btn-line-official .line-ic{width:1.35em;height:1.35em}
+.btn-line-official .line-ic .li-bg{fill:#fff}
+.btn-line-official .line-ic .li-fg{fill:var(--line-green)}
+.btn-line-official .line-ic .li-dot{fill:#fff}
+.btn-line-official:hover .line-ic .li-fg{fill:var(--line-green-dark)}
+
+/* index.html quickbar 的 LINE 連結：做成綠色膠囊，圖示才不會裸奔 */
+.quickbar .v.social-lines a.quick-line{display:inline-flex;align-items:center;gap:2px;padding:8px 15px;border-radius:999px;background:var(--line-green);color:#fff;font-size:14px;font-weight:750;line-height:1.35;text-decoration:none;transition:background .16s ease}
+.quickbar .v.social-lines a.quick-line:hover{background:var(--line-green-dark);color:#fff;text-decoration:none}
+.quickbar .v.social-lines a.quick-line:focus-visible{outline:3px solid #9BE6B8;outline-offset:3px}
+.quickbar .v.social-lines a.quick-line .line-ic{margin-right:.34em}
