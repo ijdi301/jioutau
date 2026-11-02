@@ -16,8 +16,17 @@
 <meta property="og:description" content="附 Google 地圖、交通與停車建議，以及電話與官方 LINE。近新月廣場步行約 3 分鐘。">
 <meta property="og:url" content="https://jioutau.com/contact.html">
 <meta property="og:image" content="https://jioutau.com/images/wall.jpg">
+<meta property="og:image:width" content="1168">
+<meta property="og:image:height" content="880">
+<meta property="og:image:alt" content="久淘攀岩抱石館-宜蘭店（JT Climbing）場館照片">
+<meta name="twitter:image" content="https://jioutau.com/images/wall.jpg">
+<meta name="twitter:image:alt" content="久淘攀岩抱石館-宜蘭店（JT Climbing）場館照片">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="聯絡與交通｜宜蘭市健康路三段66號・近新月廣場">
+<meta name="twitter:description" content="附 Google 地圖、交通與停車建議，以及電話與官方 LINE。近新月廣場步行約 3 分鐘。">
+<meta name="twitter:url" content="https://jioutau.com/contact.html">
 <link rel="stylesheet" href="styles.css">
+<link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="images/favicon.png">
 <link rel="apple-touch-icon" href="images/favicon.png">
 <style>
@@ -40,16 +49,16 @@ a.jt-line-btn svg{width:18px;height:18px;flex:0 0 auto;display:block}
   header .nav a.jt-line-btn{padding-left:16px;padding-right:16px}
 }
 /* 手機底部固定列：原本電話 CTA 的位置改放 LINE */
-.mobile-bar .m-line-cta{background:#06C755;color:#fff}
+.mobile-bar .m-line-cta{background:#04833c;color:#fff}
 /* 手機底部固定列實測 97px，body 預留 103px，避免遮住頁尾最後一行 */
 @media(max-width:900px){body{padding-bottom:103px}}
 /* ===== 修正：styles.css 缺少 .line-ic / .line-link 規則 ===== */
 /* 症狀：inline SVG 無 width/height → 撐成容器滿寬；.li-bg 無 fill → 預設黑色，變成巨大黑方塊 */
-:root{--line-green:#06C755;--line-green-dark:#05A94A;--line-green-ring:#06C75545}
+:root{--line-green:#04833c;--line-green-dark:#036b31;--line-green-ring:#04833c45;--line-brand:#06C755}
 .line-ic{width:1.15em;height:1.15em;flex:0 0 auto;display:inline-block;vertical-align:-.19em;margin-right:.32em}
-.line-ic .li-bg{fill:var(--line-green)}
+.line-ic .li-bg{fill:var(--line-brand)}
 .line-ic .li-fg{fill:#fff}
-.line-ic .li-dot{fill:var(--line-green)}
+.line-ic .li-dot{fill:var(--line-brand)}
 .line-link{display:inline-flex;align-items:center;gap:0;font-weight:750;color:var(--line-green-dark);border-radius:6px;text-decoration:none;transition:color .15s ease}
 .line-link:hover{color:var(--line-green);text-decoration:underline}
 .line-link:focus-visible{outline:3px solid var(--line-green-ring);outline-offset:3px}
@@ -58,58 +67,54 @@ a.jt-line-btn svg{width:18px;height:18px;flex:0 0 auto;display:block}
 .info-list .tx a.line-link{color:var(--line-green-dark)}
 .info-list .tx a.line-link:hover{color:var(--line-green)}
 </style>
-<script data-tmly-media-guard="1">(function(){"use strict";
-var T=window.__tmly||(window.__tmly=(function(){
-var o={},n=String(window.name||"");
-if(n.slice(0,5)==="tmly:"){n.slice(5).split("&").forEach(function(kv){
-var i=kv.indexOf("=");if(i>0){o[kv.slice(0,i)]=kv.slice(i+1)}})}
-return o})());
-if(T.presentation!=="preview"){return}
-var K="tmly:media-muted:"+String(location.pathname).replace(/[^/]*$/,"");
-var muted=false;try{muted=localStorage.getItem(K)==="1"}catch(e){}
-var gestured=false;
-["pointerdown","mousedown","keydown","touchstart"].forEach(function(t){
-document.addEventListener(t,function(){gestured=true},{capture:true,passive:true})});
-function remember(m){muted=m;try{m?localStorage.setItem(K,"1"):localStorage.removeItem(K)}catch(e){}}
-function announcePaused(el){try{el.dispatchEvent(new Event("pause"))}catch(e){}}
-function harden(el){
-el.autoplay=false;el.removeAttribute("autoplay");
-if(el.getAttribute("preload")==="auto"){el.setAttribute("preload","none")}
-if(muted){el.muted=true}
-if(!gestured&&!el.paused){try{el.pause()}catch(e){}}}
-var play=HTMLMediaElement.prototype.play;
-HTMLMediaElement.prototype.play=function(){
-if(!gestured){announcePaused(this);
-return Promise.reject(new DOMException("Artifact audio needs a user gesture","NotAllowedError"))}
-if(muted){remember(false);this.muted=false}
-return play.apply(this,arguments)};
-var acProtos=[];
-function guardAC(n){
-var N=window[n];if(!N||!N.prototype){return}
-if(acProtos.indexOf(N.prototype)<0){acProtos.push(N.prototype);
-var res=N.prototype.resume;
-if(typeof res==="function"){N.prototype.resume=function(){
-if(!gestured){return Promise.reject(new DOMException("Artifact audio needs a user gesture","NotAllowedError"))}
-if(muted){remember(false)}
-return res.apply(this,arguments)}}}
-var W=function(o){var c=arguments.length?new N(o):new N();
-if(!gestured){try{c.suspend()}catch(e){}}return c};
-W.prototype=N.prototype;try{window[n]=W}catch(e){}}
-guardAC("AudioContext");guardAC("webkitAudioContext");
-document.addEventListener("play",function(e){
-var el=e.target;if(el instanceof HTMLMediaElement&&!gestured){try{el.pause()}catch(err){}}},true);
-document.addEventListener("pause",function(e){
-if(e.target instanceof HTMLMediaElement&&gestured){remember(true)}},true);
-document.addEventListener("volumechange",function(e){
-var el=e.target;if(el instanceof HTMLMediaElement&&gestured){remember(el.muted||el.volume===0)}},true);
-function sweep(n){if(n&&n.querySelectorAll){var l=n.querySelectorAll("audio,video");
-for(var i=0;i<l.length;i++){harden(l[i])}}}
-new MutationObserver(function(rs){for(var i=0;i<rs.length;i++){var a=rs[i].addedNodes;
-for(var j=0;j<a.length;j++){var n=a[j];
-if(n instanceof HTMLMediaElement){harden(n)}else{sweep(n)}}}})
-.observe(document.documentElement,{childList:true,subtree:true});
-document.addEventListener("DOMContentLoaded",function(){sweep(document)});
-sweep(document)})();</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ContactPage",
+      "@id": "https://jioutau.com/contact.html",
+      "url": "https://jioutau.com/contact.html",
+      "name": "聯絡與交通｜久淘攀岩抱石館-宜蘭店（JT Climbing）",
+      "inLanguage": "zh-Hant",
+      "isPartOf": {"@id": "https://jioutau.com/"}
+    },
+    {
+      "@type": ["SportsActivityLocation", "LocalBusiness"],
+      "@id": "https://jioutau.com/#gym",
+      "name": "久淘攀岩抱石館-宜蘭店（JT Climbing)",
+      "url": "https://jioutau.com/",
+      "telephone": "+886-986-567-929",
+      "image": "https://jioutau.com/images/wall.jpg",
+      "priceRange": "NT$300 起（實際以現場公告為準）",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "健康路三段66號",
+        "addressLocality": "宜蘭市",
+        "addressRegion": "宜蘭縣",
+        "postalCode": "260",
+        "addressCountry": "TW"
+      },
+      "geo": {"@type": "GeoCoordinates", "latitude": 24.7509, "longitude": 121.7502},
+      "hasMap": "https://www.google.com/maps/search/?api=1&query=%E5%AE%9C%E8%98%AD%E5%B8%82%E5%81%A5%E5%BA%B7%E8%B7%AF%E4%B8%89%E6%AE%B566%E8%99%9F",
+      "openingHoursSpecification": [
+        {"@type": "OpeningHoursSpecification",
+         "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Friday"],
+         "opens": "17:00", "closes": "22:00"},
+        {"@type": "OpeningHoursSpecification",
+         "dayOfWeek": ["Saturday", "Sunday"],
+         "opens": "14:00", "closes": "22:00"}
+      ],
+      "sameAs": [
+        "https://line.me/R/ti/p/@388pchth",
+        "https://www.facebook.com/jioutau.yilan",
+        "https://www.instagram.com/jioutau/"
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 <a class="skip" href="#main">跳至主要內容</a>
@@ -149,7 +154,7 @@ sweep(document)})();</script>
 </header>
 
 <section class="hero hero-page" style="position:relative">
-  <img class="hero-img" src="images/hero.jpg" alt="久淘攀岩抱石館-宜蘭店（JT Climbing)室內抱石空間，木質攀岩牆上佈滿彩色岩點，地面鋪設厚軟墊" width="1476" height="1109">
+  <img class="hero-img" src="images/hero.jpg" fetchpriority="high" alt="久淘攀岩抱石館-宜蘭店（JT Climbing)室內抱石空間，木質攀岩牆上佈滿彩色岩點，地面鋪設厚軟墊" width="1476" height="1109">
   <div class="hero-inner">
     <div class="wrap">
       <nav class="crumbs" aria-label="麵包屑" style="padding-top:0;color:#93a3b5">
@@ -180,7 +185,7 @@ sweep(document)})();</script>
               <span class="tx">
                 <b>Address 地址</b>
                 <span>宜蘭縣宜蘭市健康路三段 66 號</span><br>
-                <span style="font-weight:600;color:#6b7787;font-size:15px">近新月廣場，步行約 3 分鐘（原馬西的店）</span>
+                <span style="font-weight:600;color:#5a6675;font-size:15px">近新月廣場，步行約 3 分鐘（原馬西的店）</span>
               </span>
             </li>
             <li>
@@ -188,7 +193,7 @@ sweep(document)})();</script>
               <span class="tx">
                 <b>Phone 預約專線</b>
                 <a href="tel:+886986567929">0986-567-929</a><br>
-                <span style="font-weight:600;color:#6b7787;font-size:15px">課程、包場、開團與營業狀況，都歡迎直接來電</span>
+                <span style="font-weight:600;color:#5a6675;font-size:15px">課程、包場、開團與營業狀況，都歡迎直接來電</span>
               </span>
             </li>
             <li>
@@ -212,7 +217,7 @@ sweep(document)})();</script>
               <span class="tx">
                 <b>Payment 愛心禮券</b>
                 <span>宜蘭聯勸愛心禮券可消費</span><br>
-                <span style="font-weight:600;color:#6b7787;font-size:15px">使用範圍依現場公告為準</span>
+                <span style="font-weight:600;color:#5a6675;font-size:15px">使用範圍依現場公告為準</span>
               </span>
             </li>
           </ul>
@@ -260,42 +265,42 @@ sweep(document)})();</script>
         <div class="route">
           <span class="rc" aria-hidden="true">🚗</span>
           <div class="rb">
-            <h4>自行開車</h4>
+            <h3>自行開車</h3>
             <p>國道五號下宜蘭交流道後往宜蘭市區方向，接台九線進入市區，往新月廣場方向行駛即可抵達健康路三段。可直接點「立即導航」開啟 Google Maps 路線規劃。</p>
           </div>
         </div>
         <div class="route">
           <span class="rc" aria-hidden="true">🅿️</span>
           <div class="rb">
-            <h4>停車建議</h4>
+            <h3>停車建議</h3>
             <p>建議多利用<strong>新月廣場停車場</strong>，停好車後步行約 3 分鐘即達；周邊也有路邊收費停車格。實際停車狀況與費用依現場為準。</p>
           </div>
         </div>
         <div class="route">
           <span class="rc" aria-hidden="true">🚆</span>
           <div class="rb">
-            <h4>搭火車到宜蘭火車站</h4>
+            <h3>搭火車到宜蘭火車站</h3>
             <p>出站後可轉乘市區公車、計程車或步行前往（步行約 20～25 分鐘）。若搭計程車，車程約 5～8 分鐘，跟司機說「新月廣場附近、健康路三段」即可。</p>
           </div>
         </div>
         <div class="route">
           <span class="rc" aria-hidden="true">🚌</span>
           <div class="rb">
-            <h4>搭乘客運</h4>
+            <h3>搭乘客運</h3>
             <p>搭國道客運至宜蘭轉運站後，轉乘市區公車或計程車前往新月廣場一帶。也可直接步行前往，沿途會經過宜蘭市區主要商圈。</p>
           </div>
         </div>
         <div class="route">
           <span class="rc" aria-hidden="true">🚲</span>
           <div class="rb">
-            <h4>騎車或騎腳踏車</h4>
+            <h3>騎車或騎腳踏車</h3>
             <p>宜蘭市區騎車、騎單車都很方便。店門口周邊可臨時停放機車，請依現場標線與規定停放，避免影響住戶出入。</p>
           </div>
         </div>
         <div class="route">
           <span class="rc" aria-hidden="true">🛍️</span>
           <div class="rb">
-            <h4>搭配新月廣場行程</h4>
+            <h3>搭配新月廣場行程</h3>
             <p>逛完新月廣場、吃完飯，走路 3 分鐘就能來攀岩。很適合安排成「逛街＋運動」的半日行程，也是雨天的最佳備案。</p>
           </div>
         </div>
@@ -373,7 +378,7 @@ sweep(document)})();</script>
         <p style="font-size:15px">宜蘭市區以抱石攀岩為主的室內攀岩館。希望打破「攀岩是極限運動」的刻板印象，讓新手、親子家庭與進階攀岩者都能找到樂趣。</p>
       </div>
       <div>
-        <h4>網站導覽</h4>
+        <h3>網站導覽</h3>
         <ul>
           <li><a href="about.html">關於久淘</a></li>
           <li><a href="beginner.html">新手入門</a></li>
@@ -384,7 +389,7 @@ sweep(document)})();</script>
         </ul>
       </div>
       <div>
-        <h4>實用資訊</h4>
+        <h3>實用資訊</h3>
         <ul>
           <li>平日 17:00–22:00</li>
           <li>假日 14:00–22:00</li>
@@ -393,7 +398,7 @@ sweep(document)})();</script>
         </ul>
       </div>
       <div>
-        <h4>聯絡我們</h4>
+        <h3>聯絡我們</h3>
         <ul>
           <li>📍 宜蘭縣宜蘭市健康路三段 66 號</li>
           <li>📞 <a href="tel:+886986567929">0986-567-929</a></li>
