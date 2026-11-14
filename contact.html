@@ -38,6 +38,13 @@
 <meta name="twitter:title" content="聯絡與交通｜宜蘭市健康路三段66號・近新月廣場">
 <meta name="twitter:description" content="附 Google 地圖、交通與停車建議，以及電話與官方 LINE。近新月廣場步行約 3 分鐘。">
 <meta name="twitter:url" content="https://jioutau.com/contact.html">
+<!-- 資源提示：Google 地圖改為互動後才載入，因此只先做 DNS 預解析（不建立連線、不佔主執行緒）。
+     preconnect 於使用者滑鼠移入／聚焦地圖按鈕時才以 JS 動態注入，避免首屏成本。 -->
+<link rel="dns-prefetch" href="https://www.google.com">
+<link rel="dns-prefetch" href="https://maps.gstatic.com">
+<link rel="dns-prefetch" href="https://maps.googleapis.com">
+<!-- LCP 圖（hero）預先載入：WebP 版 48.9 KB，較原 JPG 134.5 KB 少 64% -->
+<link rel="preload" as="image" href="images/hero.webp" type="image/webp" fetchpriority="high">
 <link rel="stylesheet" href="styles.css">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="images/favicon.png">
@@ -79,6 +86,49 @@ a.jt-line-btn svg{width:18px;height:18px;flex:0 0 auto;display:block}
 .site-footer .line-link:hover{color:#b6f5cc}
 .info-list .tx a.line-link{color:var(--line-green-dark)}
 .info-list .tx a.line-link:hover{color:var(--line-green)}
+/* ===== 地圖延遲載入（click-to-load facade）===== */
+/* hero 用 <picture> 包裝以提供 WebP，display:contents 讓絕對定位行為與原本完全一致 */
+.hero picture{display:contents}
+.map-facade{position:relative;background:#eef2f7}
+.map-facade .map-card{
+  display:block;width:100%;padding:0;margin:0;border:0;background:transparent;
+  cursor:pointer;position:relative;line-height:0;
+  font-family:inherit;-webkit-appearance:none;appearance:none;
+}
+.map-facade .map-static{
+  width:100%;height:420px;object-fit:cover;display:block;
+  filter:saturate(.92) brightness(1.02);
+}
+.map-facade .map-overlay{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:10px;
+  background:linear-gradient(180deg,rgba(16,26,38,.30),rgba(16,26,38,.58));
+  color:#fff;text-align:center;padding:24px;transition:background .18s ease;
+}
+.map-facade .map-card:hover .map-overlay,
+.map-facade .map-card:focus-visible .map-overlay{background:linear-gradient(180deg,rgba(16,26,38,.20),rgba(16,26,38,.50))}
+.map-facade .map-card:focus-visible{outline:3px solid #9BE6B8;outline-offset:3px}
+.map-facade .map-play{
+  width:54px;height:54px;border-radius:50%;background:#A83C14;color:#fff;
+  display:grid;place-items:center;font-size:20px;line-height:1;
+  box-shadow:0 6px 20px rgba(0,0,0,.28);padding-left:4px;
+}
+.map-facade .map-cta{font-size:17px;font-weight:800;line-height:1.45}
+.map-facade .map-note{font-size:13.5px;font-weight:500;opacity:.92;line-height:1.5}
+.map-facade .map-fallback{
+  display:block;padding:11px 16px;text-align:center;font-size:14.5px;font-weight:700;
+  color:#0A7A3A;background:#fff;border-top:1px solid var(--line);text-decoration:none;
+}
+.map-facade .map-fallback:hover{background:#f4f8f5;text-decoration:underline}
+.map-facade.is-loading .map-overlay .map-cta::after{content:"…"}
+.map-facade.is-loading .map-card{cursor:progress}
+.map-facade.is-loaded .map-fallback{display:none}
+.map-facade iframe{width:100%;height:420px;border:0;display:block;background:#eef2f7}
+@media(max-width:640px){
+  .map-facade .map-static,.map-facade iframe{height:320px}
+  .map-facade .map-cta{font-size:15.5px}
+  .map-facade .map-play{width:46px;height:46px;font-size:17px}
+}
 </style>
 
 <script type="application/ld+json">
@@ -167,7 +217,10 @@ a.jt-line-btn svg{width:18px;height:18px;flex:0 0 auto;display:block}
 </header>
 
 <section class="hero hero-page" style="position:relative">
-  <img class="hero-img" src="images/hero.jpg" fetchpriority="high" alt="久淘攀岩抱石館-宜蘭店（JT Climbing)室內抱石空間，木質攀岩牆上佈滿彩色岩點，地面鋪設厚軟墊" width="1476" height="1109">
+  <picture>
+    <source srcset="images/hero.webp" type="image/webp">
+    <img class="hero-img" src="images/hero.jpg" fetchpriority="high" alt="久淘攀岩抱石館-宜蘭店（JT Climbing)室內抱石空間，木質攀岩牆上佈滿彩色岩點，地面鋪設厚軟墊" width="1476" height="1109">
+  </picture>
   <div class="hero-inner">
     <div class="wrap">
       <nav class="crumbs" aria-label="麵包屑" style="padding-top:0;color:#93a3b5">
@@ -242,13 +295,32 @@ a.jt-line-btn svg{width:18px;height:18px;flex:0 0 auto;display:block}
         <div>
           <p class="sec-kicker">Map</p>
           <h2>地圖位置</h2>
-          <div class="map-embed">
-            <iframe
-              src="https://www.google.com/maps?q=%E5%AE%9C%E8%98%AD%E7%B8%A3%E5%AE%9C%E8%98%AD%E5%B8%82%E5%81%A5%E5%BA%B7%E8%B7%AF%E4%B8%89%E6%AE%B566%E8%99%9F&amp;output=embed&amp;hl=zh-TW"
-              title="久淘攀岩抱石館-宜蘭店（JT Climbing) Google 地圖位置"
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-              allowfullscreen></iframe>
+          <!-- 地圖採「點擊後才載入」：首屏完全不載入 Google Maps 的 JS，
+               先顯示靜態位置圖（本站自架 WebP，不連外），按下才注入 iframe。 -->
+          <div class="map-embed map-facade" id="mapFacade">
+            <button type="button" class="map-card" id="mapLoadBtn"
+                    aria-label="載入互動式 Google 地圖（久淘攀岩抱石館-宜蘭店，宜蘭市健康路三段 66 號）"
+                    aria-describedby="mapHint">
+              <img class="map-static" src="images/contact-map.webp"
+                   alt="久淘攀岩抱石館-宜蘭店位置圖：宜蘭縣宜蘭市健康路三段 66 號，近新月廣場，步行約 3 分鐘"
+                   width="800" height="475" loading="lazy" decoding="async">
+              <span class="map-overlay" aria-hidden="true">
+                <span class="map-play">▶</span>
+                <span class="map-cta">點此載入互動地圖</span>
+                <span class="map-note" id="mapHint">載入後可縮放、拖曳與看街景</span>
+              </span>
+            </button>
+            <noscript>
+              <iframe
+                src="https://www.google.com/maps?q=%E5%AE%9C%E8%98%AD%E7%B8%A3%E5%AE%9C%E8%98%AD%E5%B8%82%E5%81%A5%E5%BA%B7%E8%B7%AF%E4%B8%89%E6%AE%B566%E8%99%9F&amp;output=embed&amp;hl=zh-TW"
+                title="久淘攀岩抱石館-宜蘭店（JT Climbing) Google 地圖位置"
+                width="100%" height="420" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                allowfullscreen></iframe>
+            </noscript>
+            <a class="map-fallback"
+               href="https://www.google.com/maps/search/?api=1&amp;query=%E5%AE%9C%E8%98%AD%E7%B8%A3%E5%AE%9C%E8%98%AD%E5%B8%82%E5%81%A5%E5%BA%B7%E8%B7%AF%E4%B8%89%E6%AE%B566%E8%99%9F"
+               target="_blank" rel="noopener noreferrer">在新視窗開啟 Google 地圖 ↗</a>
           </div>
           <p class="muted" style="margin-top:14px">📍 地圖定位為地址所在位置。若地圖未顯示或導航找不到，建議直接搜尋「<strong>久淘攀岩館</strong>」或「<strong>新月廣場</strong>」再步行前往。</p>
 
@@ -445,6 +517,61 @@ a.jt-line-btn svg{width:18px;height:18px;flex:0 0 auto;display:block}
     window.addEventListener('scroll',function(){b.classList.toggle('show',window.scrollY>500);},{passive:true});
     b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
   }
+})();
+</script>
+<!-- 地圖延遲載入：預設不載入 Google Maps JS，點擊／Enter 後才注入 iframe -->
+<script>
+(function(){
+  var wrap = document.getElementById('mapFacade');
+  var btn  = document.getElementById('mapLoadBtn');
+  if(!wrap || !btn) return;
+
+  var MAP_SRC = 'https://www.google.com/maps?q=%E5%AE%9C%E8%98%AD%E7%B8%A3%E5%AE%9C%E8%98%AD%E5%B8%82%E5%81%A5%E5%BA%B7%E8%B7%AF%E4%B8%89%E6%AE%B566%E8%99%9F&output=embed&hl=zh-TW';
+  var MAP_TITLE = '久淘攀岩抱石館-宜蘭店（JT Climbing) Google 地圖位置';
+  var warmed = false;
+
+  /* 使用者「有意圖」時才預熱連線：滑鼠移入／觸控起始／鍵盤聚焦 */
+  function warm(){
+    if(warmed) return; warmed = true;
+    ['https://www.google.com','https://maps.gstatic.com','https://maps.googleapis.com'].forEach(function(h){
+      var l = document.createElement('link');
+      l.rel = 'preconnect'; l.href = h; l.crossOrigin = 'anonymous';
+      document.head.appendChild(l);
+    });
+  }
+  btn.addEventListener('mouseenter', warm, {passive:true, once:true});
+  btn.addEventListener('touchstart', warm, {passive:true, once:true});
+  btn.addEventListener('focus', warm, {once:true});
+
+  function load(){
+    if(wrap.classList.contains('is-loaded') || wrap.classList.contains('is-loading')) return;
+    warm();
+    wrap.classList.add('is-loading');
+    btn.disabled = true;
+
+    var f = document.createElement('iframe');
+    f.src = MAP_SRC;
+    f.title = MAP_TITLE;
+    f.width = '100%';
+    f.height = '420';
+    f.loading = 'lazy';
+    f.referrerPolicy = 'no-referrer-when-downgrade';
+    f.setAttribute('allowfullscreen','');
+    f.addEventListener('load', function(){
+      wrap.classList.remove('is-loading');
+      wrap.classList.add('is-loaded');
+      btn.style.display = 'none';
+    });
+
+    btn.parentNode.insertBefore(f, btn.nextSibling);
+
+    if(typeof gtag === 'function'){
+      gtag('event', 'load_map_embed', {page_location: location.href});
+    }
+  }
+  btn.addEventListener('click', load);
+
+  /* 若使用者直接點「在新視窗開啟 Google 地圖」，視為替代方案，不需載入 iframe */
 })();
 </script>
 <!-- GA4 自訂事件：電話 / LINE / 社群 / 課程 CTA -->
